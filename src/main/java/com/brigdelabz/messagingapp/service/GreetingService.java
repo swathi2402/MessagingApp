@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.brigdelabz.messagingapp.model.Greeting;
@@ -47,6 +49,12 @@ public class GreetingService implements IGreetingService {
 			return greeting;
 		}
 		return null;
+	}
+
+	@Override
+	public ResponseEntity<HttpStatus> deleteGreeting(long id) {
+		greetingRepository.deleteById(id);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 }
