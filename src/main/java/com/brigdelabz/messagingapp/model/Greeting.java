@@ -5,13 +5,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="GREETINGS")
+@Table(name = "GREETINGS")
 public class Greeting {
 
 	@Id
-	private final long userId;
-	private final String userName;
-	
+	private long userId;
+
+	private String userName;
+
 	public Greeting() {
 		userId = 0;
 		userName = "";
@@ -29,6 +30,14 @@ public class Greeting {
 
 	public String getUserName() {
 		return userName;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 }

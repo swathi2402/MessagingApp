@@ -23,45 +23,57 @@ public class GreetingController {
 
 	private static final String template = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
-	
+
 	@Autowired
 	private IGreetingService greetingService;
 
 	@GetMapping("/")
-	public Greeting greeting(@RequestParam(value="firstName",defaultValue = "")String firstName,@RequestParam(value="lastName",defaultValue = "")String lastName) {
+	public Greeting greeting(@RequestParam(value = "firstName", defaultValue = "") String firstName,
+			@RequestParam(value = "lastName", defaultValue = "") String lastName) {
 		User user = new User();
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		return greetingService.addGreeting(user);
 	}
-	
+
 	@GetMapping("/get/{id}")
 	public String getMessageById(@PathVariable Long id) {
 		return greetingService.getGreetingById(id).getUserName();
 	}
-	
+
 	@GetMapping("/getAll")
 	public List<Greeting> getMessages() {
 		return greetingService.getAllGreetings();
 	}
-	
-	@GetMapping("/query")
-    public Greeting greetingQuery(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return new Greeting(counter.incrementAndGet(), String.format(template, name));
-    }
 
-    @GetMapping("/param/{name}")
-    public Greeting greetingParam(@PathVariable String name) {
-        return new Greeting(counter.incrementAndGet(), String.format(template, name));
-    }
-	
+	@PutMapping("/edit/{id}")
+	public Greeting editMessage(@PathVariable Long id,
+			@RequestParam(value = "firstName", defaultValue = "") String firstName,
+			@RequestParam(value = "lastName", defaultValue = "") String lastName) {
+		User user = new User();
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		return greetingService.editGreeting(id, user);
+	}
+
+	@GetMapping("/query")
+	public Greeting greetingQuery(@RequestParam(value = "name", defaultValue = "World") String name) {
+		return new Greeting(counter.incrementAndGet(), String.format(template, name));
+	}
+
+	@GetMapping("/param/{name}")
+	public Greeting greetingParam(@PathVariable String name) {
+		return new Greeting(counter.incrementAndGet(), String.format(template, name));
+	}
+
 	@PostMapping("/post")
-    public Greeting greeting(@RequestBody User user) {
-        return new Greeting(counter.incrementAndGet(), String.format(template, user.getFirstName() + " " + user.getLastName()));
-    }
-	
+	public Greeting greeting(@RequestBody User user) {
+		return new Greeting(counter.incrementAndGet(),
+				String.format(template, user.getFirstName() + " " + user.getLastName()));
+	}
+
 	@PutMapping("/put/{firstName}")
-    public Greeting greetingPut(@PathVariable String firstName, @RequestParam(value = "lastName") String lastName) {
-        return new Greeting(counter.incrementAndGet(), String.format(template, firstName + " " + lastName));
-    }
+	public Greeting greetingPut(@PathVariable String firstName, @RequestParam(value = "lastName") String lastName) {
+		return new Greeting(counter.incrementAndGet(), String.format(template, firstName + " " + lastName));
+	}
 }
