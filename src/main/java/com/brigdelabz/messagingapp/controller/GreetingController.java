@@ -63,25 +63,4 @@ public class GreetingController {
 	public ResponseEntity<HttpStatus> deleteGreeting(@PathVariable Long id) {
 		return greetingService.deleteGreeting(id);
 	}
-
-	@GetMapping("/query")
-	public Greeting greetingQuery(@RequestParam(value = "name", defaultValue = "World") String name) {
-		return new Greeting(counter.incrementAndGet(), String.format(template, name));
-	}
-
-	@GetMapping("/param/{name}")
-	public Greeting greetingParam(@PathVariable String name) {
-		return new Greeting(counter.incrementAndGet(), String.format(template, name));
-	}
-
-	@PostMapping("/post")
-	public Greeting greeting(@RequestBody User user) {
-		return new Greeting(counter.incrementAndGet(),
-				String.format(template, user.getFirstName() + " " + user.getLastName()));
-	}
-
-	@PutMapping("/put/{firstName}")
-	public Greeting greetingPut(@PathVariable String firstName, @RequestParam(value = "lastName") String lastName) {
-		return new Greeting(counter.incrementAndGet(), String.format(template, firstName + " " + lastName));
-	}
 }
